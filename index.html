@@ -1,267 +1,92 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Peramalan Inflasi Indonesia</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+        <style>
+            .forecasting-row {
+                background-color: lightblue;
+            }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peramalan Inflasi Indonesia</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        .forecasting-row {
-            background-color: lightblue;
-        }
+            /* Style untuk legenda */
+            .legend {
+                margin-top: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
 
-        /* Style untuk legenda */
-        .legend {
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+            .legend-item {
+                display: flex;
+                align-items: center;
+                margin-right: 20px;
+            }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            margin-right: 20px;
-        }
+            .legend-color {
+                width: 20px;
+                height: 20px;
+                margin-right: 5px;
+                border: 1px solid #ccc;
+            }
 
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            margin-right: 5px;
-            border: 1px solid #ccc;
-        }
+            .actual-data-color {
+                background-color: white;
+                /* Warna latar belakang untuk data aktual */
+            }
 
-        .actual-data-color {
-            background-color: white;
-            /* Warna latar belakang untuk data aktual */
-        }
+            .forecasting-data-color {
+                background-color: lightblue;
+                /* Warna latar belakang untuk data peramalan */
+            }
+        </style>
+    </head>
 
-        .forecasting-data-color {
-            background-color: lightblue;
-            /* Warna latar belakang untuk data peramalan */
-        }
-    </style>
-</head>
-
-<body class="h-100 py-4">
-    <div class="container">
-        <h1 class="text-center mb-5">Indonesia Inflation Forecasting</h1>
-        <div class="row">
-            <div class="col-sm-12 col-lg-6">
-                <div id="inflationChart"></div>
+    <body class="h-100 pb-4">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-primary" href="./index.html">Inflation Forecasting</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li> -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Menu </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="./static.html">Static Data Forecast</a></li>
+                                <li><a class="dropdown-item" href="./dynamic.html">Dynamic Forecasting</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="col-sm-12 col-lg-6">
-                <div id="inflationTable" class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Bulan</th>
-                                <th>Data Inflasi (%)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody"></tbody>
-                    </table>
-                    <nav class="d-flex justify-content-center">
-                        <ul class="pagination" id="pagination"></ul>
-                    </nav>
+        </nav>
+        <div class="container pt-5">
+            <div class="row">
+                <div class="col-sm-12 col-lg-6 d-flex flex-column align-items-start">
+                    <div class="text-bg-primary fw-bold py-3 px-4 h3 rounded-pill">Welcome to</div>
+                    <h1 class="fw-bold display-1">Inflation Forecasting</h1>
+                    <em class="mb-5 h4 text-secondary">Indonesia Inflation Forecast: Stay Ahead of the Curve</em>
+                    <div class="d-flex gap-3">
+                        <a href="./dynamic.html" target="_blank" role="button" class="btn btn-primary rounded-pill">Dynamic Forecasting <i class="ms-2 bi bi-box-arrow-up-right"></i></a>
+                        <a href="./static.html" target="_blank" role="button" class="btn btn-outline-dark rounded-pill">Static Data Forecast <i class="ms-2 bi bi-box-arrow-up-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                    <img src="./assets/img/Investment data-rafiki.svg" alt="Hero Img.svg" />
                 </div>
             </div>
         </div>
-    </div>
-    <script src="data_yoy.js"></script>
-    <script>
-        function forecastInflation() {
-            const periods = [];
-            const inflationRates = [];
-            for (let i = 0; i < inflationData.length; i++) {
-                // Ubah string tahun menjadi objek Date
-                periods.push(new Date(inflationData[i]["Period"]));
-                inflationRates.push(parseFloat(inflationData[i]["Inflation Data"]));
-            }
-
-            function linearRegression(x, y) {
-                const n = x.length;
-                const sumX = x.reduce((a, b) => a + b.getFullYear(), 0);
-                const sumY = y.reduce((a, b) => a + b, 0);
-                const sumXY = x.reduce((sum, xi, i) => sum + xi.getFullYear() * y[i], 0);
-                const sumXX = x.reduce((sum, xi) => sum + xi.getFullYear() * xi.getFullYear(), 0);
-
-                const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-                const intercept = (sumY - slope * sumX) / n;
-
-                return { slope, intercept };
-            }
-
-            const { slope, intercept } = linearRegression(periods, inflationRates);
-
-            const forecastedInflation = [];
-            const forecastPeriods = [];
-            const currentYear = new Date().getFullYear();
-            const lastYear = periods[periods.length - 1].getFullYear();
-
-            for (let i = lastYear + 1; i <= currentYear + 5; i++) {
-                forecastPeriods.push(new Date(i, 0, 1)); // 1 Januari tahun i
-                forecastedInflation.push(slope * i + intercept);
-            }
-
-            const allPeriods = [...periods, ...forecastPeriods];
-            const allInflationRates = [...inflationRates, ...forecastedInflation];
-
-            const options = {
-                chart: {
-                    type: 'line',
-                    zoom: {
-                        enabled: true,
-                        type: 'x',
-                    },
-                    toolbar: {
-                        autoSelected: 'zoom',
-                    },
-                },
-                stroke: {
-                    width: 2.5,
-                    curve: 'smooth',
-                },
-                series: [{
-                    name: "Data Inflasi (%)",
-                    data: allPeriods.map((period, index) => ({
-                        x: period,
-                        y: allInflationRates[index]
-                    }))
-                }],
-                xaxis: {
-                    type: 'datetime',
-                    labels: {
-                        format: 'yyyy', // Ubah format sumbu X menjadi tahun
-                    },
-                    title: {
-                        text: 'Tahun'
-                    },
-                    tooltip: {
-                        formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
-                            const date = new Date(value);
-                            return date.getFullYear();
-                        }
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: 'Inflasi (%)'
-                    },
-                    labels: {
-                        formatter: function (value) {
-                            return value.toFixed(2) + '%';
-                        }
-                    }
-                }
-            };
-
-            const chart = new ApexCharts(document.querySelector("#inflationChart"), options);
-            chart.render();
-
-            const tableBody = document.querySelector("#tableBody");
-            const pagination = document.querySelector("#pagination");
-
-            let currentPage = 1;
-            const rowsPerPage = 10;
-
-            function displayTable(page) {
-                tableBody.innerHTML = "";
-
-                // Mengurutkan allPeriods secara descending (dari tahun terbaru ke terlama)
-                const sortedPeriods = [...allPeriods].sort((a, b) => b.getFullYear() - a.getFullYear());
-                const sortedInflationRates = sortedPeriods.map(period => {
-                    const index = allPeriods.findIndex(p => p.getTime() === period.getTime());
-                    return allInflationRates[index];
-                });
-
-                const start = (page - 1) * rowsPerPage;
-                const end = start + rowsPerPage;
-                const dataToDisplay = sortedPeriods.slice(start, end).map((period, index) => ({
-                    year: period.getFullYear(), // Tampilkan tahun saja
-                    inflation: sortedInflationRates.slice(start, end)[index].toFixed(2),
-                    isForecasting: start + index >= periods.length
-                }));
-
-                dataToDisplay.forEach(row => {
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `<td>${row.year}</td><td>${row.inflation}%</td>`;
-                    if (row.isForecasting) {
-                        tr.classList.add("forecasting-row");
-                    }
-                    tableBody.appendChild(tr);
-                });
-
-                displayPagination();
-            }
-
-            function displayPagination() {
-                pagination.innerHTML = "";
-                const pageCount = Math.ceil(allPeriods.length / rowsPerPage);
-
-                addPaginationButton("<i class='bi bi-chevron-double-left'></i>", 1);
-                addPaginationButton("<i class='bi bi-chevron-left'></i>", currentPage - 1, currentPage > 1);
-
-                if (pageCount <= 5) {
-                    for (let i = 1; i <= pageCount; i++) {
-                        addPaginationButton(i, i);
-                    }
-                } else {
-                    if (currentPage <= 3) {
-                        for (let i = 1; i <= 3; i++) {
-                            addPaginationButton(i, i);
-                        }
-                        addPaginationButton("...", null, false);
-                        addPaginationButton(pageCount, pageCount);
-                    } else if (currentPage >= pageCount - 2) {
-                        addPaginationButton(1, 1);
-                        addPaginationButton("...", null, false);
-                        for (let i = pageCount - 2; i <= pageCount; i++) {
-                            addPaginationButton(i, i);
-                        }
-                    } else {
-                        addPaginationButton(1, 1);
-                        addPaginationButton("...", null, false);
-                        addPaginationButton(currentPage - 1, currentPage - 1);
-                        addPaginationButton(currentPage, currentPage);
-                        addPaginationButton(currentPage + 1, currentPage + 1);
-                        addPaginationButton("...", null, false);
-                        addPaginationButton(pageCount, pageCount);
-                    }
-                }
-
-                addPaginationButton("<i class='bi bi-chevron-right'></i>", currentPage + 1, currentPage < pageCount);
-                addPaginationButton("<i class='bi bi-chevron-double-right'></i>", pageCount);
-            }
-
-            function addPaginationButton(text, page, enabled = true) {
-                const li = document.createElement("li");
-                li.classList.add("page-item");
-                if (!enabled) {
-                    li.classList.add("disabled");
-                }
-                li.innerHTML = `<a class="page-link" href="#">${text}</a>`;
-                if (enabled) {
-                    li.addEventListener("click", () => {
-                        currentPage = page;
-                        displayTable(currentPage);
-                    });
-                }
-                if (page === currentPage) {
-                    li.classList.add("active");
-                }
-                pagination.appendChild(li);
-            }
-
-            displayTable(currentPage);
-        }
-
-        forecastInflation();
-    </script>
-</body>
-
+    </body>
 </html>
