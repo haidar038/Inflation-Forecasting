@@ -68,6 +68,10 @@
                                 <li><a class="dropdown-item" href="./dynamic.html">Dynamic Forecasting</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item ms-2">
+                            <!-- Dark Mode Toggle Button -->
+                            <button id="darkModeToggle" class="btn btn-secondary"><i class="bi bi-sun-fill"></i></button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -96,6 +100,40 @@
                 </div>
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const htmlElement = document.documentElement;
+            const icon = document.querySelector('#darkModeToggle i'); // Get the icon element
+
+            // Load preference from localStorage on page load
+            function loadPreference() {
+                const storedTheme = localStorage.getItem('theme');
+                if (storedTheme) {
+                    htmlElement.dataset.bsTheme = storedTheme;
+                    updateIcon(storedTheme); // Update icon based on loaded theme
+                }
+            }
+
+            // Save preference to localStorage on theme change
+            function savePreference(theme) {
+                localStorage.setItem('theme', theme);
+                updateIcon(theme); // Update icon immediately
+            }
+
+            function updateIcon(theme) {
+                icon.className = theme === 'dark' ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const currentTheme = htmlElement.dataset.bsTheme;
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                htmlElement.dataset.bsTheme = newTheme;
+                savePreference(newTheme);
+            });
+
+            loadPreference(); // Load preference on page load
+        </script>
         <script src="data_yoy.js"></script>
         <script>
             function forecastInflation() {

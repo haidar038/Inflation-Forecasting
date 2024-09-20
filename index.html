@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Inflatin Forecasting</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     </head>
@@ -32,6 +31,10 @@
                                 <li><a class="dropdown-item" href="./dynamic.html">Dynamic Forecasting</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item ms-2">
+                            <!-- Dark Mode Toggle Button -->
+                            <button id="darkModeToggle" class="btn btn-secondary"><i class="bi bi-sun-fill"></i></button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -44,7 +47,7 @@
                     <em class="mb-5 h4 text-secondary">Indonesia Inflation Forecast: Stay Ahead of the Curve</em>
                     <div class="d-flex gap-3">
                         <a href="./dynamic.html" role="button" class="btn btn-primary rounded-pill">Dynamic Forecasting</a>
-                        <a href="./static.html" target="_blank" role="button" class="btn btn-outline-dark rounded-pill">Static Data Forecast <i class="ms-2 bi bi-box-arrow-up-right"></i></a>
+                        <a href="./static.html" target="_blank" role="button" class="btn btn-outline-secondary rounded-pill">Static Data Forecast <i class="ms-2 bi bi-box-arrow-up-right"></i></a>
                     </div>
                 </div>
                 <div class="col-sm-12 col-lg-6 d-lg-block d-none">
@@ -52,5 +55,40 @@
                 </div>
             </div>
         </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const htmlElement = document.documentElement;
+            const icon = document.querySelector('#darkModeToggle i'); // Get the icon element
+
+            // Load preference from localStorage on page load
+            function loadPreference() {
+                const storedTheme = localStorage.getItem('theme');
+                if (storedTheme) {
+                    htmlElement.dataset.bsTheme = storedTheme;
+                    updateIcon(storedTheme); // Update icon based on loaded theme
+                }
+            }
+
+            // Save preference to localStorage on theme change
+            function savePreference(theme) {
+                localStorage.setItem('theme', theme);
+                updateIcon(theme); // Update icon immediately
+            }
+
+            function updateIcon(theme) {
+                icon.className = theme === 'dark' ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const currentTheme = htmlElement.dataset.bsTheme;
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                htmlElement.dataset.bsTheme = newTheme;
+                savePreference(newTheme);
+            });
+
+            loadPreference(); // Load preference on page load
+        </script>
     </body>
 </html>
